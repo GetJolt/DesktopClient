@@ -1,4 +1,4 @@
-import type { PresenceStatus } from '@jolt/protocol';
+import type { PresenceStatus } from '@getjolt/protocol';
 import { Settings } from 'lucide-react';
 import { client } from '@/lib/client';
 import { address } from '@/lib/format';

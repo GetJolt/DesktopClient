@@ -1,4 +1,4 @@
-import type { User } from '@jolt/protocol';
+import type { User } from '@getjolt/protocol';
 import { Globe } from 'lucide-react';
 import { address, avatarColor, displayName, formatFull, roleColor } from '@/lib/format';
 import type { GuildState } from '@/store/data';

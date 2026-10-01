@@ -1,4 +1,4 @@
-import type { Invite } from '@jolt/protocol';
+import type { Invite } from '@getjolt/protocol';
 import { ArrowLeft, Globe, Link2, Plus, Users } from 'lucide-react';
 import { useEffect, useMemo, useState, type FormEvent } from 'react';
 import { client } from '@/lib/client';
@@ -187,8 +187,8 @@ function JoinForm({ initial, onBack }: { initial: string; onBack: () => void }) 
     <form onSubmit={submit} className="flex flex-col gap-5">
       <Field
         label="Invite link"
-        error={link && !parsed ? 'Paste a full invite link, like jolt://invite/jolt.chat/AbC123' : error}
-        hint="Links look like jolt://invite/jolt.chat/AbC123 or https://jolt.chat/invite/AbC123"
+        error={link && !parsed ? 'Paste a full invite link, like jolt://invite/joltapp.org/AbC123' : error}
+        hint="Links look like jolt://invite/joltapp.org/AbC123 or https://joltapp.org/invite/AbC123"
       >
         {(props) => (
           <Input
@@ -197,7 +197,7 @@ function JoinForm({ initial, onBack }: { initial: string; onBack: () => void }) 
             onChange={(e) => (setLink(e.target.value), setJoinError(null))}
             autoFocus
             spellCheck={false}
-            placeholder="jolt://invite/jolt.chat/AbC123"
+            placeholder="jolt://invite/joltapp.org/AbC123"
           />
         )}
       </Field>

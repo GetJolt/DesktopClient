@@ -1,7 +1,7 @@
 import clsx from 'clsx';
 import { ArrowDown, ArrowUp, Check, Globe, LogOut, Plus, Settings, UserPlus } from 'lucide-react';
 import { useMemo, useState, type DragEvent } from 'react';
-import { guildActivity } from '@jolt/sdk';
+import { guildActivity } from '@getjolt/sdk';
 import { client, session } from '@/lib/client';
 import { initials, pluralize } from '@/lib/format';
 import { useRovingFocus } from '@/hooks/useRovingFocus';

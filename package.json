@@ -1,18 +1,19 @@
 {
-  "name": "@jolt/desktop",
+  "name": "@getjolt/desktop",
   "version": "0.1.0",
   "description": "Jolt desktop client.",
   "license": "MIT",
   "private": true,
   "main": "./out/main/index.js",
+  "desktopName": "jolt.desktop",
   "scripts": {
     "dev": "electron-vite dev",
     "build": "electron-vite build",
     "preview": "electron-vite preview",
     "typecheck": "tsc --noEmit -p tsconfig.node.json && tsc --noEmit -p tsconfig.web.json",
     "test": "vitest run --passWithNoTests",
-    "package": "electron-vite build && electron-builder --config electron-builder.config.cjs --publish never",
-    "release": "electron-vite build && electron-builder --config electron-builder.config.cjs --win --mac --linux --publish never",
+    "package": "electron-vite build && electron-builder --config electron-builder.config.cjs --dir",
+    "release": "electron-vite build && electron-builder --config electron-builder.config.cjs --publish never",
     "brand": "python scripts/generate-brand-assets.py"
   },
   "dependencies": {
@@ -21,8 +22,8 @@
   "devDependencies": {
     "@fontsource-variable/inter": "^5.3.0",
     "@fontsource-variable/jetbrains-mono": "^5.3.0",
-    "@jolt/protocol": "workspace:*",
-    "@jolt/sdk": "workspace:*",
+    "@getjolt/protocol": "^0.1.0",
+    "@getjolt/sdk": "^0.1.0",
     "@radix-ui/react-alert-dialog": "^1.1.23",
     "@radix-ui/react-context-menu": "^2.3.7",
     "@radix-ui/react-dialog": "^1.1.23",
@@ -32,6 +33,7 @@
     "@radix-ui/react-tabs": "^1.1.21",
     "@radix-ui/react-tooltip": "^1.2.16",
     "@tailwindcss/vite": "^4.3.3",
+    "@types/node": "^24.9.0",
     "@types/react": "^19.3.0",
     "@types/react-dom": "^19.3.0",
     "@vitejs/plugin-react": "^5.2.0",
@@ -45,9 +47,11 @@
     "react-dom": "^19.3.0",
     "react-virtuoso": "^4.18.16",
     "tailwindcss": "^4.3.3",
+    "typescript": "~6.0.3",
     "vite": "^7.3.6",
+    "vitest": "^5.0.3",
     "zustand": "^5.0.15"
   },
   "author": "The Jolt contributors",
-  "homepage": "https://jolt.chat"
+  "homepage": "https://joltapp.org"
 }

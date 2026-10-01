@@ -1,5 +1,5 @@
-import type { Invite } from '@jolt/protocol';
-import type { FoundInvite } from '@jolt/sdk';
+import type { Invite } from '@getjolt/protocol';
+import type { FoundInvite } from '@getjolt/sdk';
 import { Globe, Link2Off } from 'lucide-react';
 import { useEffect, useState } from 'react';
 import { client } from '@/lib/client';

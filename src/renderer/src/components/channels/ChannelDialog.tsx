@@ -1,4 +1,4 @@
-import { Permission, type Overwrite } from '@jolt/protocol';
+import { Permission, type Overwrite } from '@getjolt/protocol';
 import clsx from 'clsx';
 import { Check, Minus, X } from 'lucide-react';
 import { useState, type FormEvent } from 'react';

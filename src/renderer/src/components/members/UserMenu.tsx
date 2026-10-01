@@ -5,8 +5,8 @@ import {
   outranks,
   Permission,
   type User,
-} from '@jolt/protocol';
-import { permissionContext } from '@jolt/sdk';
+} from '@getjolt/protocol';
+import { permissionContext } from '@getjolt/sdk';
 import { AtSign, Ban, Copy, Fingerprint, IdCard, PenLine, Shield, UserMinus } from 'lucide-react';
 import type { ReactNode } from 'react';
 import { announce } from '@/lib/announcer';

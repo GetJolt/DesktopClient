@@ -1,5 +1,5 @@
 import * as RadixDialog from '@radix-ui/react-dialog';
-import { sortedTextChannels } from '@jolt/sdk';
+import { sortedTextChannels } from '@getjolt/sdk';
 import clsx from 'clsx';
 import { Hash, Search } from 'lucide-react';
 import { useMemo, useState, type KeyboardEvent } from 'react';

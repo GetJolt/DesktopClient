@@ -8,8 +8,8 @@ import {
   type Member,
   type PermissionName,
   type Role,
-} from '@jolt/protocol';
-import { permissionContext } from '@jolt/sdk';
+} from '@getjolt/protocol';
+import { permissionContext } from '@getjolt/sdk';
 import clsx from 'clsx';
 import { Plus, Search, Trash2 } from 'lucide-react';
 import { useEffect, useMemo, useState, type FormEvent } from 'react';

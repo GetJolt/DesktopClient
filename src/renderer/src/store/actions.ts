@@ -1,15 +1,15 @@
 // Desktop glue around the SDK session: navigation after actions, notifications and screen reader
-// announcements. Data and network logic lives in @jolt/sdk.
+// announcements. Data and network logic lives in @getjolt/sdk.
 
-import type { Message, PresenceStatus } from '@jolt/protocol';
-import { errorMessage, sortedTextChannels, type ChatMessage, type ParsedInvite } from '@jolt/sdk';
+import type { Message, PresenceStatus } from '@getjolt/protocol';
+import { errorMessage, sortedTextChannels, type ChatMessage, type ParsedInvite } from '@getjolt/sdk';
 import { announce } from '@/lib/announcer';
 import { session } from '@/lib/client';
 import { displayName } from '@/lib/format';
 import { scoped, type ScopedKey } from '@/lib/keys';
 import { useUi } from './ui';
 
-export { errorMessage, inviteLink, sortedTextChannels } from '@jolt/sdk';
+export { errorMessage, inviteLink, sortedTextChannels } from '@getjolt/sdk';
 
 let wired = false;
 

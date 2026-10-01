@@ -1,4 +1,4 @@
-import type { PresenceStatus } from '@jolt/protocol';
+import type { PresenceStatus } from '@getjolt/protocol';
 import { create } from 'zustand';
 import { persist } from 'zustand/middleware';
 import type { ScopedKey } from '@/lib/keys';

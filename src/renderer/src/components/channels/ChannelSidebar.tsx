@@ -1,4 +1,4 @@
-import { Permission, type Channel } from '@jolt/protocol';
+import { Permission, type Channel } from '@getjolt/protocol';
 import clsx from 'clsx';
 import {
   Check,

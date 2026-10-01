@@ -1,4 +1,4 @@
-import type { User } from '@jolt/protocol';
+import type { User } from '@getjolt/protocol';
 import * as Popover from '@radix-ui/react-popover';
 import type { ReactNode } from 'react';
 import { displayName } from '@/lib/format';

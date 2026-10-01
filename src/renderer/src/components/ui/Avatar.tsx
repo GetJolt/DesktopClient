@@ -1,4 +1,4 @@
-import type { PresenceStatus } from '@jolt/protocol';
+import type { PresenceStatus } from '@getjolt/protocol';
 import clsx from 'clsx';
 import { useState } from 'react';
 import { avatarGradient, initials } from '@/lib/format';
@@ -23,7 +23,8 @@ export function Avatar({
   ring = 'var(--panel)',
   className,
 }: AvatarProps) {
-  const [broken, setBroken] = useState(false);
+  // Remembers which url failed, so picking a new avatar gets a fresh attempt.
+  const [brokenUrl, setBrokenUrl] = useState<string | null>(null);
   const badge = Math.max(10, Math.round(size * 0.32));
 
   return (
@@ -32,12 +33,12 @@ export function Avatar({
       style={{ width: size, height: size }}
       aria-hidden="true"
     >
-      {url && !broken ? (
+      {url && url !== brokenUrl ? (
         <img
           src={url}
           alt=""
           className="size-full rounded-full object-cover"
-          onError={() => setBroken(true)}
+          onError={() => setBrokenUrl(url)}
           referrerPolicy="no-referrer"
           draggable={false}
         />

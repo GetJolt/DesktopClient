@@ -1,4 +1,4 @@
-import { Limits, type Channel, type Member, type Message } from '@jolt/protocol';
+import { Limits, type Channel, type Member, type Message } from '@getjolt/protocol';
 import clsx from 'clsx';
 import { Lock, SendHorizontal, X } from 'lucide-react';
 import { useEffect, useMemo, useRef, useState, type KeyboardEvent } from 'react';

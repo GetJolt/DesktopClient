@@ -1,4 +1,4 @@
-import type { Invite } from '@jolt/protocol';
+import type { Invite } from '@getjolt/protocol';
 import { Check, Copy } from 'lucide-react';
 import { useEffect, useState } from 'react';
 import { announce } from '@/lib/announcer';

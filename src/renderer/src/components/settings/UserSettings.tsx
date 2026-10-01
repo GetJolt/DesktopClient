@@ -1,4 +1,4 @@
-import type { SessionInfo } from '@jolt/protocol';
+import type { SessionInfo } from '@getjolt/protocol';
 import { LogOut, Monitor } from 'lucide-react';
 import { useEffect, useState, type FormEvent } from 'react';
 import { client, session } from '@/lib/client';
@@ -6,11 +6,11 @@ import { address, avatarGradient, formatTimestamp } from '@/lib/format';
 import { errorMessage, signOut } from '@/store/actions';
 import { useData } from '@/store/data';
 import { useUi, type SettingsTab, type ThemePref } from '@/store/ui';
-import { Avatar } from '../ui/Avatar';
 import { Button, Spinner } from '../ui/Button';
 import { ConfirmDialog } from '../ui/Dialog';
 import { Field, Input, SwitchRow, Textarea } from '../ui/Field';
 import { AboutTab } from './AboutTab';
+import { AvatarPicker } from './AvatarPicker';
 import { RadioCards, SettingsLayout, SettingsSection } from './SettingsLayout';
 
 export function UserSettings({
@@ -92,13 +92,14 @@ function AccountTab() {
 
   return (
     <form onSubmit={save} className="max-w-xl">
-      <div className="mb-8 flex items-center gap-4 rounded-[var(--radius-lg)] bg-sunken p-5">
-        <Avatar name={displayName || me.handle} seed={me.id} url={me.avatarUrl} size={72} />
-        <div className="min-w-0">
+      <div className="mb-8 rounded-[var(--radius-lg)] bg-sunken p-5">
+        <AvatarPicker me={me} name={displayName || me.handle}>
           <p className="truncate text-xl font-bold">{displayName || me.handle}</p>
-          <p className="truncate text-fg-muted">{address(me)}</p>
-          <p className="mt-1 text-xs text-fg-subtle">Your address works on every Jolt instance.</p>
-        </div>
+          <p className="truncate text-fg-muted">
+            {address(me)}
+            <span className="text-fg-subtle"> · works on every Jolt instance</span>
+          </p>
+        </AvatarPicker>
       </div>
       <div className="flex flex-col gap-5">
         <Field label="Display name" hint="Shown next to your messages everywhere.">

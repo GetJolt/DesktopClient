@@ -1,1 +1,1 @@
-export { compareIds, scoped, unscope, type ScopedKey } from '@jolt/sdk';
+export { compareIds, scoped, unscope, type ScopedKey } from '@getjolt/sdk';

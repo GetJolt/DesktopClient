@@ -11,7 +11,7 @@ function contentSecurityPolicy(dev: boolean): string {
     "default-src 'self'",
     `script-src 'self'${dev ? " 'unsafe-inline'" : ''}`,
     "style-src 'self' 'unsafe-inline'",
-    "img-src 'self' https: data: blob:",
+    `img-src 'self' https: data: blob: http://localhost:* http://127.0.0.1:*`,
     "font-src 'self' data:",
     `connect-src 'self' https: wss: ${local}`,
     "object-src 'none'",

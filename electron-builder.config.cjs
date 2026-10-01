@@ -7,7 +7,7 @@ const updateUrl = process.env.JOLT_UPDATE_URL || 'https://joltapp.org/download';
 
 /** @type {import('electron-builder').Configuration} */
 module.exports = {
-  appId: 'chat.jolt.desktop',
+  appId: 'org.joltapp.client',
   productName: 'Jolt',
   copyright: 'Copyright © 2026 The Jolt contributors',
   directories: {
@@ -45,6 +45,7 @@ module.exports = {
     deleteAppDataOnUninstall: false,
   },
 
+  // Not shipped yet, but anyone on a Mac can build it with `pnpm --filter @getjolt/desktop release`.
   mac: {
     target: [
       { target: 'dmg', arch: ['universal'] },
@@ -71,6 +72,7 @@ module.exports = {
     icon: 'build/icon.png',
     synopsis: 'Federated, self-hostable chat',
     executableName: 'jolt',
+    syncDesktopName: true,
   },
   appImage: { artifactName: 'Jolt-${version}.${ext}' },
   deb: { artifactName: 'jolt_${version}_${arch}.${ext}' },

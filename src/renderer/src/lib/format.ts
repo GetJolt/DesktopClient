@@ -1,4 +1,4 @@
-import type { Member, User } from '@jolt/protocol';
+import type { Member, User } from '@getjolt/protocol';
 
 const time = new Intl.DateTimeFormat(undefined, { hour: 'numeric', minute: '2-digit' });
 const date = new Intl.DateTimeFormat(undefined, { year: 'numeric', month: 'short', day: 'numeric' });

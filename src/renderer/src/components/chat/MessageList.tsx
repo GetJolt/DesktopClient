@@ -1,4 +1,4 @@
-import type { Channel, Message } from '@jolt/protocol';
+import type { Channel, Message } from '@getjolt/protocol';
 import { ArrowDown, Hash } from 'lucide-react';
 import {
   forwardRef,

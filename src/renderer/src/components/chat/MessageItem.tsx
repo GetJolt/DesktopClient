@@ -1,5 +1,5 @@
-import type { Message } from '@jolt/protocol';
-import { findInviteLinks } from '@jolt/sdk';
+import type { Message } from '@getjolt/protocol';
+import { findInviteLinks } from '@getjolt/sdk';
 import clsx from 'clsx';
 import { AlertCircle, Copy, CornerUpLeft, Fingerprint, MoreHorizontal, Pencil, Trash2 } from 'lucide-react';
 import { memo, useEffect, useMemo, useRef, useState, type CSSProperties, type KeyboardEvent } from 'react';

@@ -1,4 +1,4 @@
-import type { ChatState } from '@jolt/sdk';
+import type { ChatState } from '@getjolt/sdk';
 import { useStore } from 'zustand';
 import { session } from '@/lib/client';
 
@@ -9,7 +9,7 @@ export {
   type ChatMessage,
   type ChatState,
   type GuildState,
-} from '@jolt/sdk';
+} from '@getjolt/sdk';
 
 /** Subscribes a component to a slice of the SDK session state. */
 export function useData<T>(selector: (state: ChatState) => T): T {

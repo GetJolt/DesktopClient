@@ -1,4 +1,4 @@
-import { Permission, type Channel, type Message } from '@jolt/protocol';
+import { Permission, type Channel, type Message } from '@getjolt/protocol';
 import { Hash, UserPlus, Users } from 'lucide-react';
 import { useCallback, useEffect, useState } from 'react';
 import { usePermissions } from '@/hooks/useGuild';

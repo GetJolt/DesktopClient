@@ -1,5 +1,5 @@
-import { type Channel, type Member, type Role } from '@jolt/protocol';
-import { canSeeChannel } from '@jolt/sdk';
+import { type Channel, type Member, type Role } from '@getjolt/protocol';
+import { canSeeChannel } from '@getjolt/sdk';
 import clsx from 'clsx';
 import { useMemo, type CSSProperties } from 'react';
 import { useRovingFocus } from '@/hooks/useRovingFocus';

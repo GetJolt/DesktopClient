@@ -1,10 +1,10 @@
-import { hasPermission, type Channel } from '@jolt/protocol';
-import { permissionsFor } from '@jolt/sdk';
+import { hasPermission, type Channel } from '@getjolt/protocol';
+import { permissionsFor } from '@getjolt/sdk';
 import { useMemo } from 'react';
 import { useData, type GuildState } from '@/store/data';
 import { useUi } from '@/store/ui';
 
-export { canSeeChannel } from '@jolt/sdk';
+export { canSeeChannel } from '@getjolt/sdk';
 
 export function useCurrentGuild(): GuildState | null {
   const key = useUi((s) => s.guildKey);

@@ -1,5 +1,5 @@
-import { isValidInstance, normalizeInstance, type InstanceInfo } from '@jolt/protocol';
-import { JoltApiError } from '@jolt/sdk';
+import { isValidInstance, normalizeInstance, type InstanceInfo } from '@getjolt/protocol';
+import { JoltApiError } from '@getjolt/sdk';
 import { ArrowLeft, Globe, Server, ShieldCheck, Users } from 'lucide-react';
 import { useEffect, useRef, useState, type FormEvent } from 'react';
 import { client, DEFAULT_INSTANCE } from '@/lib/client';
@@ -143,7 +143,7 @@ function Feature({ icon, text }: { icon: React.ReactNode; text: string }) {
 const PREVIEW = [
   {
     name: 'Alice Rivera',
-    address: 'alice@jolt.chat',
+    address: 'alice@joltapp.org',
     color: '#15803d',
     text: 'Design review in 10? Bringing the new mockups.',
   },
@@ -154,7 +154,7 @@ const PREVIEW = [
     text: 'Joining from my own server. Feels just like home ⚡',
     foreign: true,
   },
-  { name: 'Kai', address: 'kai@jolt.chat', color: '#1d4ed8', text: 'Nice! Saving you a seat in #general' },
+  { name: 'Kai', address: 'kai@joltapp.org', color: '#1d4ed8', text: 'Nice! Saving you a seat in #general' },
 ];
 
 /** Decorative: a glimpse of a conversation between people on different instances. */
@@ -224,7 +224,7 @@ function InstancePicker({
     const submit = (e: FormEvent) => {
       e.preventDefault();
       const value = normalizeInstance(draft);
-      if (!isValidInstance(value)) return setError('Enter an address like jolt.chat or chat.example.org');
+      if (!isValidInstance(value)) return setError('Enter an address like joltapp.org or chat.example.org');
       onChange(value);
     };
     return (
@@ -240,7 +240,7 @@ function InstancePicker({
               {...props}
               value={draft}
               onChange={(e) => setDraft(e.target.value)}
-              placeholder="jolt.chat"
+              placeholder="joltapp.org"
               autoComplete="url"
               spellCheck={false}
             />
