@@ -72,6 +72,9 @@ module.exports = {
     icon: 'build/icon.png',
     synopsis: 'Federated, self-hostable chat',
     executableName: 'jolt',
+    // Debian packages must name a maintainer with an email address.
+    maintainer: 'The Jolt contributors <hello@joltapp.org>',
+    vendor: 'Jolt',
     syncDesktopName: true,
   },
   appImage: { artifactName: 'Jolt-${version}.${ext}' },
