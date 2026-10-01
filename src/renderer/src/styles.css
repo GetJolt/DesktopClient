@@ -1,0 +1,452 @@
+@import 'tailwindcss';
+@import '@fontsource-variable/inter';
+@import '@fontsource-variable/jetbrains-mono';
+
+/*
+ * Design tokens in three layers:
+ *   primitives  – raw palette (ink neutrals, volt lime, signal colours); never used by components directly
+ *   semantic    – roles per theme (canvas, panel, raised, text, accent…); every text pairing meets WCAG AA
+ *   component   – the few values specific to one component (rail, composer, focus ring)
+ */
+:root {
+  --ink-0: #ffffff;
+  --ink-25: #f8f9fb;
+  --ink-50: #f2f3f6;
+  --ink-100: #e8eaee;
+  --ink-200: #d6d9df;
+  --ink-300: #b4b8c1;
+  --ink-400: #9a9ea8;
+  --ink-500: #6b6f7a;
+  --ink-600: #545862;
+  --ink-700: #3a3d45;
+  --ink-750: #2c2e35;
+  --ink-800: #222329;
+  --ink-850: #1b1c21;
+  --ink-900: #151519;
+  --ink-925: #111114;
+  --ink-950: #0b0b0d;
+
+  --volt-200: #e7fb9e;
+  --volt-300: #d8f772;
+  --volt-400: #c8f04b;
+  --volt-500: #b1d93a;
+  --volt-700: #4a6a00;
+  --volt-800: #3a5300;
+  --volt-950: #141a04;
+
+  --red-300: #ff8f8f;
+  --red-600: #c93339;
+  --green-400: #3fcf8e;
+  --green-700: #17824f;
+  --amber-400: #f5b544;
+  --amber-700: #a86600;
+
+  --radius-sm: 6px;
+  --radius-md: 10px;
+  --radius-lg: 14px;
+  --radius-xl: 18px;
+  --ease-out: cubic-bezier(0.22, 1, 0.36, 1);
+  --dur-fast: 120ms;
+  --dur-base: 180ms;
+}
+
+:root,
+[data-theme='dark'] {
+  color-scheme: dark;
+  --canvas: var(--ink-950);
+  --panel: var(--ink-900);
+  --sunken: var(--ink-925);
+  --raised: var(--ink-850);
+  --raised-strong: var(--ink-800);
+  --elevated: var(--ink-850);
+  --overlay: rgb(5 5 7 / 0.66);
+  --hover: rgb(255 255 255 / 0.045);
+  --active: rgb(255 255 255 / 0.085);
+  --line: rgb(255 255 255 / 0.07);
+  --line-strong: rgb(255 255 255 / 0.14);
+  --highlight: inset 0 1px 0 rgb(255 255 255 / 0.05);
+
+  --fg: var(--ink-50);
+  --fg-muted: var(--ink-300);
+  --fg-subtle: var(--ink-400);
+
+  --accent: var(--volt-400);
+  --accent-hover: var(--volt-300);
+  --on-accent: var(--volt-950);
+  --accent-text: var(--volt-300);
+  --accent-soft: rgb(200 240 75 / 0.1);
+  --accent-glow: rgb(200 240 75 / 0.22);
+
+  --danger: var(--red-300);
+  --danger-fill: var(--red-600);
+  --on-danger: #ffffff;
+  --online: var(--green-400);
+  --idle: var(--amber-400);
+  --dnd: #f25f5c;
+  --offline: #80848e;
+  --mention-bg: rgb(200 240 75 / 0.07);
+  --focus: var(--volt-400);
+
+  --shadow-1: 0 1px 2px rgb(0 0 0 / 0.4);
+  --shadow-2: 0 8px 24px -6px rgb(0 0 0 / 0.55), 0 0 0 1px rgb(255 255 255 / 0.06);
+  --shadow-3: 0 24px 64px -12px rgb(0 0 0 / 0.7), 0 0 0 1px rgb(255 255 255 / 0.07);
+}
+
+[data-theme='light'] {
+  color-scheme: light;
+  --canvas: var(--ink-100);
+  --panel: var(--ink-0);
+  --sunken: var(--ink-50);
+  --raised: var(--ink-25);
+  --raised-strong: var(--ink-50);
+  --elevated: var(--ink-0);
+  --overlay: rgb(20 22 28 / 0.38);
+  --hover: rgb(20 22 28 / 0.045);
+  --active: rgb(20 22 28 / 0.08);
+  --line: rgb(20 22 28 / 0.09);
+  --line-strong: rgb(20 22 28 / 0.18);
+  --highlight: inset 0 1px 0 rgb(255 255 255 / 0.9);
+
+  --fg: var(--ink-950);
+  --fg-muted: var(--ink-600);
+  --fg-subtle: #5c606b;
+
+  --accent: var(--volt-400);
+  --accent-hover: var(--volt-500);
+  --on-accent: var(--volt-950);
+  --accent-text: var(--volt-700);
+  --accent-soft: rgb(120 160 0 / 0.1);
+  --accent-glow: rgb(160 210 20 / 0.3);
+
+  --danger: #b4232a;
+  --danger-fill: var(--red-600);
+  --on-danger: #ffffff;
+  --online: var(--green-700);
+  --idle: var(--amber-700);
+  --dnd: #c9343a;
+  --offline: #747883;
+  --mention-bg: rgb(170 210 30 / 0.14);
+  --focus: #2f5bd3;
+
+  --shadow-1: 0 1px 2px rgb(20 22 28 / 0.08);
+  --shadow-2: 0 10px 28px -8px rgb(20 22 28 / 0.18), 0 0 0 1px rgb(20 22 28 / 0.07);
+  --shadow-3: 0 28px 72px -16px rgb(20 22 28 / 0.28), 0 0 0 1px rgb(20 22 28 / 0.08);
+}
+
+[data-theme='contrast'] {
+  color-scheme: dark;
+  --canvas: #000000;
+  --panel: #000000;
+  --sunken: #000000;
+  --raised: #0d0d0d;
+  --raised-strong: #1a1a1a;
+  --elevated: #000000;
+  --overlay: rgb(0 0 0 / 0.85);
+  --hover: rgb(255 255 255 / 0.12);
+  --active: rgb(255 255 255 / 0.22);
+  --line: #8a8a8a;
+  --line-strong: #ffffff;
+  --highlight: none;
+
+  --fg: #ffffff;
+  --fg-muted: #f0f0f0;
+  --fg-subtle: #d6d6d6;
+
+  --accent: #e4ff5c;
+  --accent-hover: #f0ff99;
+  --on-accent: #000000;
+  --accent-text: #e4ff5c;
+  --accent-soft: rgb(228 255 92 / 0.18);
+  --accent-glow: transparent;
+
+  --danger: #ff9b9b;
+  --danger-fill: #ff9b9b;
+  --on-danger: #000000;
+  --online: #5cff9d;
+  --idle: #ffd25c;
+  --dnd: #ff8080;
+  --offline: #c0c0c0;
+  --mention-bg: rgb(228 255 92 / 0.16);
+  --focus: #ffff00;
+
+  --shadow-1: none;
+  --shadow-2: 0 0 0 2px #ffffff;
+  --shadow-3: 0 0 0 2px #ffffff;
+}
+
+/* Legacy aliases so older class names keep resolving to the new roles. */
+:root {
+  --surface-0: var(--canvas);
+  --surface-1: var(--sunken);
+  --surface-2: var(--panel);
+  --surface-3: var(--raised);
+  --surface-4: var(--raised-strong);
+
+  --rail-item: var(--raised);
+  --composer-bg: var(--raised);
+  --focus-ring: 0 0 0 2px var(--panel), 0 0 0 4px var(--focus);
+}
+
+@theme inline {
+  --color-canvas: var(--canvas);
+  --color-panel: var(--panel);
+  --color-sunken: var(--sunken);
+  --color-raised: var(--raised);
+  --color-raised-strong: var(--raised-strong);
+  --color-elevated: var(--elevated);
+  --color-surface-0: var(--surface-0);
+  --color-surface-1: var(--surface-1);
+  --color-surface-2: var(--surface-2);
+  --color-surface-3: var(--surface-3);
+  --color-surface-4: var(--surface-4);
+  --color-hover: var(--hover);
+  --color-active: var(--active);
+  --color-line: var(--line);
+  --color-line-strong: var(--line-strong);
+  --color-fg: var(--fg);
+  --color-fg-muted: var(--fg-muted);
+  --color-fg-subtle: var(--fg-subtle);
+  --color-accent: var(--accent);
+  --color-accent-hover: var(--accent-hover);
+  --color-on-accent: var(--on-accent);
+  --color-accent-text: var(--accent-text);
+  --color-accent-soft: var(--accent-soft);
+  --color-danger: var(--danger);
+  --color-danger-fill: var(--danger-fill);
+  --color-on-danger: var(--on-danger);
+  --color-online: var(--online);
+  --color-idle: var(--idle);
+  --color-dnd: var(--dnd);
+  --color-offline: var(--offline);
+  --color-mention: var(--mention-bg);
+  --color-overlay: var(--overlay);
+  --shadow-1: var(--shadow-1);
+  --shadow-pop: var(--shadow-2);
+  --shadow-modal: var(--shadow-3);
+  --shadow-highlight: var(--highlight);
+  --radius-sm: var(--radius-sm);
+  --radius-md: var(--radius-md);
+  --radius-lg: var(--radius-lg);
+  --radius-xl: var(--radius-xl);
+  --ease-out: var(--ease-out);
+  --font-sans: 'Inter Variable', 'Segoe UI Variable Text', system-ui, sans-serif;
+  --font-mono: 'JetBrains Mono Variable', ui-monospace, 'Cascadia Code', monospace;
+}
+
+@layer base {
+  html {
+    font-size: calc(16px * var(--font-scale, 1));
+    background: var(--canvas);
+  }
+
+  html,
+  body,
+  #root {
+    height: 100%;
+  }
+
+  body {
+    @apply bg-canvas font-sans text-fg antialiased;
+    font-feature-settings: 'cv11', 'ss01', 'ss03';
+    overflow: hidden;
+    user-select: none;
+  }
+
+  h1,
+  h2,
+  h3 {
+    letter-spacing: -0.011em;
+  }
+
+  /* Chat content and form fields stay selectable; app chrome doesn't. */
+  input,
+  textarea,
+  [data-selectable] {
+    user-select: text;
+  }
+
+  :focus {
+    outline: none;
+  }
+
+  :focus-visible {
+    outline: 2px solid var(--focus);
+    outline-offset: 2px;
+  }
+
+  [data-theme='contrast'] :focus-visible {
+    outline-width: 3px;
+  }
+
+  button:not(:disabled),
+  [role='button']:not([aria-disabled='true']),
+  a[href],
+  summary {
+    cursor: pointer;
+  }
+
+  [data-underline-links='true'] [data-link] {
+    text-decoration: underline;
+  }
+
+  ::selection {
+    background: color-mix(in srgb, var(--accent) 38%, transparent);
+  }
+
+  ::placeholder {
+    color: var(--fg-subtle);
+    opacity: 1;
+  }
+
+  ::-webkit-scrollbar {
+    width: 12px;
+    height: 12px;
+  }
+  ::-webkit-scrollbar-thumb {
+    background: var(--raised-strong);
+    border: 3px solid transparent;
+    background-clip: padding-box;
+    border-radius: 999px;
+  }
+  ::-webkit-scrollbar-thumb:hover {
+    background-color: var(--ink-600);
+  }
+  ::-webkit-scrollbar-track {
+    background: transparent;
+  }
+  .scroll-thin::-webkit-scrollbar {
+    width: 8px;
+  }
+  .scroll-thin::-webkit-scrollbar-thumb {
+    border-width: 2px;
+  }
+  .scroll-hidden::-webkit-scrollbar {
+    display: none;
+  }
+}
+
+@layer components {
+  /* A row in a list (channels, members, menu items): consistent hover, pressed and selected states. */
+  .row {
+    @apply rounded-md transition-colors duration-150;
+  }
+  .row:hover {
+    background: var(--hover);
+  }
+  .row:active {
+    background: var(--active);
+  }
+  .row[aria-current='page'],
+  .row[aria-selected='true'] {
+    background: var(--active);
+    color: var(--fg);
+  }
+
+  .press {
+    transition:
+      transform var(--dur-fast) var(--ease-out),
+      background-color var(--dur-base),
+      color var(--dur-base),
+      box-shadow var(--dur-base);
+  }
+  .press:active:not(:disabled) {
+    transform: scale(0.97);
+  }
+
+  .card {
+    background: var(--raised);
+    border: 1px solid var(--line);
+    border-radius: var(--radius-lg);
+    box-shadow: var(--highlight), var(--shadow-1);
+  }
+
+  .eyebrow {
+    @apply text-[0.6875rem] font-semibold tracking-[0.06em] text-fg-subtle uppercase;
+  }
+}
+
+/* Role colours are chosen by server admins, so clamp their lightness per theme to keep names readable. */
+.role-text {
+  color: oklch(from var(--role-color) max(l, 0.74) c h);
+}
+[data-theme='light'] .role-text {
+  color: oklch(from var(--role-color) min(l, 0.5) c h);
+}
+[data-theme='contrast'] .role-text {
+  color: oklch(from var(--role-color) max(l, 0.86) c h);
+}
+
+/* Popovers, menus and dialogs take focus programmatically; their items show focus, not the whole surface. */
+[role='dialog']:focus-visible,
+[role='alertdialog']:focus-visible,
+[role='menu']:focus-visible {
+  outline: none;
+}
+
+/* In high contrast every surface is black, so regions and fields need visible edges instead. */
+[data-theme='contrast'] [data-region='servers'],
+[data-theme='contrast'] [data-region='channels'] {
+  border-right: 1px solid var(--line);
+}
+[data-theme='contrast'] [data-region='members'] {
+  border-left: 1px solid var(--line);
+}
+
+.drag-region {
+  -webkit-app-region: drag;
+}
+.no-drag {
+  -webkit-app-region: no-drag;
+}
+
+@keyframes pop-in {
+  from {
+    opacity: 0;
+    transform: scale(0.97) translateY(6px);
+  }
+}
+@keyframes fade-in {
+  from {
+    opacity: 0;
+  }
+}
+@keyframes rise-in {
+  from {
+    opacity: 0;
+    transform: translateY(4px);
+  }
+}
+@keyframes typing-dot {
+  0%,
+  60%,
+  100% {
+    opacity: 0.3;
+    transform: translateY(0);
+  }
+  30% {
+    opacity: 1;
+    transform: translateY(-2px);
+  }
+}
+
+.animate-pop {
+  animation: pop-in 200ms var(--ease-out);
+}
+.animate-fade {
+  animation: fade-in 150ms ease-out;
+}
+.animate-rise {
+  animation: rise-in 220ms var(--ease-out);
+}
+.typing-dot {
+  animation: typing-dot 1.2s infinite ease-in-out;
+}
+
+[data-reduced-motion='true'] *,
+[data-reduced-motion='true'] *::before,
+[data-reduced-motion='true'] *::after {
+  animation-duration: 0.001ms !important;
+  animation-iteration-count: 1 !important;
+  transition-duration: 0.001ms !important;
+  scroll-behavior: auto !important;
+}
