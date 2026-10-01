@@ -51,19 +51,13 @@ const handleOf = (user: User) =>
 
 const isExternal = (post: Post) => post.source === 'bluesky' || post.source === 'mastodon';
 
-/** Bluesky and Mastodon people have no profile in Jolt, so their name opens their profile on that network. */
-function openAuthor(user: User) {
-  if (user.id.startsWith('bsky:'))
-    return void window.jolt.openExternal(`https://bsky.app/profile/${user.handle}`);
-  if (user.id.startsWith('masto:'))
-    return void window.jolt.openExternal(`https://${user.instance}/@${user.handle}`);
-  openProfile(user.id);
-}
+/** Everyone opens in the app, including Bluesky and Mastodon people (read through the linked account). */
+const openAuthor = (user: User) => openProfile(user.id);
 
 /** Clicking empty space opens the thread, but not when the click was on a control or ended a text selection. */
 function onCardClick(event: MouseEvent, post: Post) {
   if ((event.target as HTMLElement).closest('button, a, [role="menuitem"], input, textarea')) return;
-  if (window.getSelection()?.toString() || isExternal(post)) return;
+  if (window.getSelection()?.toString()) return;
   openThread(post.id);
 }
 
@@ -89,8 +83,7 @@ export const PostItem = memo(function PostItem({
       aria-busy={post.pending || undefined}
       onClick={focus ? undefined : (e) => onCardClick(e, post)}
       onKeyDown={(e: KeyboardEvent) => {
-        if (e.key === 'Enter' && e.target === e.currentTarget && !focus && !isExternal(post))
-          openThread(post.id);
+        if (e.key === 'Enter' && e.target === e.currentTarget && !focus) openThread(post.id);
       }}
       className={clsx(
         'group relative px-5 outline-none',

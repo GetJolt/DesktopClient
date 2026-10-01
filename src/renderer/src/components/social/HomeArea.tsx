@@ -1,7 +1,17 @@
 import type { Notification, Profile } from '@getjolt/protocol';
 import { errorMessage } from '@getjolt/sdk';
 import clsx from 'clsx';
-import { ArrowLeft, AtSign, Heart, MessageCircle, Quote, Repeat2, Search, UserPlus } from 'lucide-react';
+import {
+  ArrowLeft,
+  AtSign,
+  ExternalLink,
+  Heart,
+  MessageCircle,
+  Quote,
+  Repeat2,
+  Search,
+  UserPlus,
+} from 'lucide-react';
 import { useEffect, useState, type FormEvent, type ReactNode } from 'react';
 import { session } from '@/lib/client';
 import { avatarGradient, displayName, formatAge, formatCount } from '@/lib/format';
@@ -180,7 +190,9 @@ function ProfileHeader({ profile }: { profile: Profile }) {
   const isMe = useData((s) => (s.homeInstance ? s.me[s.homeInstance]?.id === profile.user.id : false));
   const user = profile.user;
   const name = displayName(user);
-  const address = user.local ? `@${user.handle}` : `@${user.handle}@${user.instance}`;
+  const network = user.id.startsWith('bsky:') ? 'Bluesky' : user.id.startsWith('masto:') ? 'Mastodon' : null;
+  const address =
+    user.local || network === 'Bluesky' ? `@${user.handle}` : `@${user.handle}@${user.instance}`;
   const following = relationship?.following ?? 'none';
 
   return (
@@ -191,29 +203,39 @@ function ProfileHeader({ profile }: { profile: Profile }) {
           <span className="rounded-full ring-4 ring-panel">
             <Avatar name={name} seed={user.id} url={user.avatarUrl} size={88} />
           </span>
-          {isMe ? (
-            <Button
-              variant="secondary"
-              size="sm"
-              onClick={() => useUi.getState().openDialog({ type: 'settings', tab: 'account' })}
-            >
-              Edit profile
-            </Button>
-          ) : (
-            <Button
-              size="sm"
-              variant={following === 'none' ? 'primary' : 'secondary'}
-              onClick={() => setFollowing(user.id, following === 'none', name)}
-            >
-              {following === 'following'
-                ? 'Following'
-                : following === 'pending'
-                  ? 'Requested'
-                  : relationship?.followedBy
-                    ? 'Follow back'
-                    : 'Follow'}
-            </Button>
-          )}
+          <div className="flex items-center gap-2">
+            {network && profile.url && (
+              <Button
+                variant="ghost"
+                size="sm"
+                icon={<ExternalLink className="size-4" />}
+                onClick={() => void window.jolt.openExternal(profile.url!)}
+              >
+                Open on {network}
+              </Button>
+            )}
+            {isMe ? (
+              <Button
+                variant="secondary"
+                size="sm"
+                onClick={() => useUi.getState().openDialog({ type: 'settings', tab: 'account' })}
+              >
+                Edit profile
+              </Button>
+            ) : relationship ? (
+              <Button
+                size="sm"
+                variant={following === 'none' ? 'primary' : 'secondary'}
+                onClick={() => setFollowing(user.id, following === 'none', name)}
+              >
+                {following === 'following'
+                  ? 'Following'
+                  : following === 'pending'
+                    ? 'Requested'
+                    : `${relationship?.followedBy ? 'Follow back' : 'Follow'}${network ? ` on ${network}` : ''}`}
+              </Button>
+            ) : null}
+          </div>
         </div>
         <h2 className="mt-3 text-2xl font-bold tracking-tight">{name}</h2>
         <p className="text-fg-subtle">
