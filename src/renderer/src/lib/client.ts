@@ -1,7 +1,7 @@
 import { JoltSession } from '@getjolt/sdk';
 
 export const DEFAULT_INSTANCE =
-  import.meta.env.VITE_DEFAULT_INSTANCE ?? (import.meta.env.DEV ? 'localhost:4000' : 'joltapp.org');
+  import.meta.env.VITE_DEFAULT_INSTANCE ?? (import.meta.env.DEV ? 'localhost:4000' : 'host.joltapp.org');
 
 const deviceName = await window.jolt.deviceName().catch(() => 'Jolt Desktop');
 
