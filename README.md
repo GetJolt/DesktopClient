@@ -30,7 +30,7 @@ pnpm --filter @getjolt/desktop release    # installers for the platform you're o
 pnpm --filter @getjolt/desktop package    # just the unpacked app, which is quicker for testing
 ```
 
-The output lands in `release/`. Windows gets an NSIS installer that lets people choose where to install, and Linux gets an AppImage and a .deb. Installers can only be built on the platform they're for, so the Desktop release workflow builds both on GitHub's runners whenever you push a `desktop-v*` tag or start it by hand.
+The output lands in `release/`. Windows gets an NSIS installer that lets people choose where to install, and Linux gets an AppImage and a .deb. Installers can only be built on the platform they're for, so the Desktop release workflow builds both on GitHub's runners. Pushing a `desktop-v*` tag also publishes them as a release, while starting it by hand only builds them.
 
 We don't ship macOS builds yet, but the configuration is all there. Running `release` on a Mac produces a DMG you can use yourself.
 
@@ -42,7 +42,7 @@ Builds aren't code signed yet. Windows SmartScreen will warn about them until a 
 
 The app checks for updates shortly after launch and every few hours after that. When one has downloaded, a small "Restart to update" button appears in the title bar, and Settings has an About page where people can check by hand.
 
-Updates are read from `https://joltapp.org/download`, which is where the website serves its installers too. To ship a release, copy everything in `release/` (the installers and the `latest*.yml` files) into `apps/site/download/` and deploy the site. To host updates somewhere else, set `JOLT_UPDATE_URL` when building.
+To ship a version, bump `version` in `package.json`, commit it, and push a matching tag such as `desktop-v0.2.0` to the monorepo. The Desktop release workflow builds the installers and publishes them as a GitHub release. The website links to that release, and the app finds it at `https://github.com/GetJolt/monorepo/releases/latest/download`. GitHub's "latest" release is whichever was published most recently, so keep other kinds of release out of the monorepo or mark them as pre-releases. To host updates somewhere else, set `JOLT_UPDATE_URL` when building.
 
 ## License
 

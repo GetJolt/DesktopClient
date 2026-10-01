@@ -1,9 +1,10 @@
 // Packaging and auto-update configuration.
 //
-// Releases are published to a plain HTTPS folder (the marketing site's /download path by default), which serves
-// both the download buttons and the update feed. Point JOLT_UPDATE_URL elsewhere to host them separately.
+// Updates come from the newest GitHub release, which GitHub serves at a fixed /releases/latest/download/ address.
+// The release workflow uploads latest.yml and the installers there. Set JOLT_UPDATE_URL to host them elsewhere.
 
-const updateUrl = process.env.JOLT_UPDATE_URL || 'https://joltapp.org/download';
+const updateUrl =
+  process.env.JOLT_UPDATE_URL || 'https://github.com/GetJolt/monorepo/releases/latest/download';
 
 /** @type {import('electron-builder').Configuration} */
 module.exports = {
