@@ -21,6 +21,21 @@ export function formatTimestamp(ms: number): string {
 }
 
 export const formatTime = (ms: number) => time.format(ms);
+
+const shortDate = new Intl.DateTimeFormat(undefined, { month: 'short', day: 'numeric' });
+
+/** Compact age for feeds: "now", "5m", "3h", "2d", then a date. */
+export function formatAge(ms: number, now = Date.now()): string {
+  const seconds = Math.max(0, (now - ms) / 1000);
+  if (seconds < 45) return 'now';
+  if (seconds < 3600) return `${Math.round(seconds / 60)}m`;
+  if (seconds < 86_400) return `${Math.round(seconds / 3600)}h`;
+  if (seconds < 7 * 86_400) return `${Math.round(seconds / 86_400)}d`;
+  return new Date(ms).getFullYear() === new Date(now).getFullYear() ? shortDate.format(ms) : date.format(ms);
+}
+
+const compact = new Intl.NumberFormat(undefined, { notation: 'compact', maximumFractionDigits: 1 });
+export const formatCount = (n: number) => (n < 1000 ? String(n) : compact.format(n));
 export const formatFull = (ms: number) => full.format(ms);
 export const formatDay = (ms: number) => dayLabel.format(ms);
 export const isSameDay = (a: number, b: number) => startOfDay(a) === startOfDay(b);

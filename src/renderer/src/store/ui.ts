@@ -5,7 +5,17 @@ import type { ScopedKey } from '@/lib/keys';
 
 export type ThemePref = 'system' | 'dark' | 'light' | 'contrast';
 export type Density = 'cozy' | 'compact';
-export type SettingsTab = 'account' | 'appearance' | 'accessibility' | 'devices' | 'instances' | 'about';
+export type SettingsTab =
+  'account' | 'linked' | 'appearance' | 'accessibility' | 'devices' | 'instances' | 'about';
+
+/** What the Home area shows: the social side of Jolt. */
+export type HomeRoute =
+  | { view: 'timeline' }
+  | { view: 'notifications' }
+  | { view: 'people' }
+  | { view: 'profile'; userId: string }
+  | { view: 'thread'; postId: string }
+  | { view: 'link'; linkId: string };
 
 export type Dialog =
   | { type: 'settings'; tab: SettingsTab }
@@ -23,7 +33,9 @@ export type Dialog =
   | { type: 'shortcuts' }
   | { type: 'profile'; guildKey: ScopedKey; userId: string }
   | { type: 'nickname'; guildKey: ScopedKey; userId: string }
-  | { type: 'moderate'; guildKey: ScopedKey; userId: string; action: 'kick' | 'ban' };
+  | { type: 'moderate'; guildKey: ScopedKey; userId: string; action: 'kick' | 'ban' }
+  | { type: 'compose'; replyToId?: string; quoteId?: string }
+  | { type: 'lightbox'; postId: string; index: number };
 
 interface UiState {
   theme: ThemePref;
@@ -39,8 +51,14 @@ interface UiState {
   guildKey: ScopedKey | null;
   channelByGuild: Record<ScopedKey, string>;
   dialog: Dialog | null;
+  /** Where you are in Home, with a short history for the back button. */
+  home: HomeRoute;
+  homeHistory: HomeRoute[];
 
   set: (partial: Partial<UiState>) => void;
+  /** Opens a Home view, leaving any server you were in. */
+  goHome: (route?: HomeRoute) => void;
+  goBack: () => void;
   openGuild: (guildKey: ScopedKey | null) => void;
   openChannel: (guildKey: ScopedKey, channelId: string) => void;
   toggleCategory: (key: string) => void;
@@ -63,8 +81,27 @@ export const useUi = create<UiState>()(
       guildKey: null,
       channelByGuild: {},
       dialog: null,
+      home: { view: 'timeline' },
+      homeHistory: [],
 
       set: (partial) => set(partial),
+      goHome: (route) =>
+        set((s) => {
+          if (!route) return { guildKey: null };
+          const same = JSON.stringify(route) === JSON.stringify(s.home);
+          return {
+            guildKey: null,
+            home: route,
+            homeHistory: same || s.guildKey !== null ? s.homeHistory : [...s.homeHistory.slice(-30), s.home],
+          };
+        }),
+      goBack: () =>
+        set((s) => {
+          const previous = s.homeHistory.at(-1);
+          return previous
+            ? { home: previous, homeHistory: s.homeHistory.slice(0, -1) }
+            : { home: { view: 'timeline' } };
+        }),
       openGuild: (guildKey) => set({ guildKey }),
       openChannel: (guildKey, channelId) =>
         set((s) => ({ guildKey, channelByGuild: { ...s.channelByGuild, [guildKey]: channelId } })),
@@ -77,7 +114,10 @@ export const useUi = create<UiState>()(
     }),
     {
       name: 'jolt.ui',
-      partialize: ({ dialog: _dialog, set: _set, ...rest }) => rest,
+      partialize: ({ dialog: _dialog, homeHistory: _history, ...rest }) => {
+        const { set: _set, goHome: _goHome, goBack: _goBack, ...prefs } = rest;
+        return prefs;
+      },
     },
   ),
 );

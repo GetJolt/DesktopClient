@@ -5,6 +5,7 @@ import { AddGuildDialog } from '../guilds/AddGuildDialog';
 import { InviteDialog } from '../guilds/InviteDialog';
 import { ModerateDialog, NicknameDialog, ProfileDialog } from '../members/MemberDialogs';
 import { QuickSwitcher } from './QuickSwitcher';
+import { ComposeDialog, Lightbox } from '../social/SocialDialogs';
 import { ShortcutsDialog } from './ShortcutsDialog';
 
 const UserSettings = lazy(() =>
@@ -29,6 +30,16 @@ export function Dialogs() {
       );
     case 'channel':
       return <ChannelDialog {...dialog} onOpenChange={onOpenChange} />;
+    case 'compose':
+      return (
+        <ComposeDialog
+          replyToId={dialog.replyToId}
+          quoteId={dialog.quoteId}
+          onClose={() => onOpenChange(false)}
+        />
+      );
+    case 'lightbox':
+      return <Lightbox postId={dialog.postId} index={dialog.index} onClose={() => onOpenChange(false)} />;
     case 'quickSwitcher':
       return <QuickSwitcher onOpenChange={onOpenChange} />;
     case 'shortcuts':

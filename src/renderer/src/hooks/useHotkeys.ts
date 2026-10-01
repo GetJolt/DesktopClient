@@ -37,6 +37,9 @@ export function useGlobalHotkeys() {
       } else if (mod && event.key.toLowerCase() === 'k') {
         event.preventDefault();
         ui.openDialog({ type: 'quickSwitcher' });
+      } else if (mod && !event.shiftKey && event.key.toLowerCase() === 'n') {
+        event.preventDefault();
+        ui.openDialog({ type: 'compose' });
       } else if (mod && event.key === ',') {
         event.preventDefault();
         ui.openDialog({ type: 'settings', tab: 'account' });
@@ -73,4 +76,9 @@ export const SHORTCUTS: { keys: string[]; description: string }[] = [
   { keys: ['Delete'], description: 'Delete the focused message' },
   { keys: ['Esc'], description: 'Cancel reply or edit, or return to the composer' },
   { keys: ['Shift', 'Enter'], description: 'New line in a message' },
+  { keys: ['Ctrl', 'N'], description: 'Write a new post' },
+  { keys: ['J / K'], description: 'Next or previous post (timelines)' },
+  { keys: ['L'], description: 'Like the focused post' },
+  { keys: ['T'], description: 'Repost the focused post' },
+  { keys: ['Ctrl', 'Enter'], description: 'Publish a post or reply' },
 ];

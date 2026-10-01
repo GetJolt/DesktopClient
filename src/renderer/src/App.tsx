@@ -6,20 +6,32 @@ import { Spinner } from './components/ui/Button';
 import { Logo } from './components/ui/Logo';
 import { TooltipProvider } from './components/ui/Tooltip';
 import { useApplyPreferences } from './hooks/useTheme';
+import { announce } from './lib/announcer';
 import { session } from './lib/client';
 import { boot } from './store/actions';
 import { useData } from './store/data';
+import { openPostByUrl, openProfileByAddress } from './store/social';
 import { useUi } from './store/ui';
 
-let pendingInvite: string | null = null;
+// A link that arrived before sign-in finished, handled once the session is ready.
+let pendingLink: string | null = null;
+
+function openLink(url: string) {
+  const rest = (prefix: string) => decodeURIComponent(url.slice(prefix.length).replace(/\/$/, ''));
+  if (url.startsWith('jolt://invite/')) useUi.getState().openDialog({ type: 'addGuild', inviteLink: url });
+  else if (url.startsWith('jolt://settings/linked'))
+    useUi.getState().openDialog({ type: 'settings', tab: 'linked' });
+  else if (url.startsWith('jolt://profile/')) void openProfileByAddress(rest('jolt://profile/'));
+  else if (url.startsWith('jolt://post/')) {
+    void openPostByUrl(rest('jolt://post/')).then(
+      (ok) => ok || announce("Couldn't open that post.", 'assertive'),
+    );
+  }
+}
 
 function handleDeepLink(url: string) {
-  if (!url.startsWith('jolt://invite/')) return;
-  if (session.state.status === 'signedIn') {
-    useUi.getState().openDialog({ type: 'addGuild', inviteLink: url });
-  } else {
-    pendingInvite = url;
-  }
+  if (session.state.status === 'signedIn') openLink(url);
+  else pendingLink = url;
 }
 
 export function App() {
@@ -33,9 +45,9 @@ export function App() {
   }, []);
 
   useEffect(() => {
-    if (status === 'signedIn' && pendingInvite) {
-      useUi.getState().openDialog({ type: 'addGuild', inviteLink: pendingInvite });
-      pendingInvite = null;
+    if (status === 'signedIn' && pendingLink) {
+      openLink(pendingLink);
+      pendingLink = null;
     }
   }, [status]);
 

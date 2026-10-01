@@ -15,3 +15,8 @@ export {
 export function useData<T>(selector: (state: ChatState) => T): T {
   return useStore(session.store, selector);
 }
+
+/** Subscribes to the social half of the session state (timelines, posts, profiles). */
+export function useSocial<T>(selector: (state: ChatState['social']) => T): T {
+  return useStore(session.store, (s) => selector(s.social));
+}

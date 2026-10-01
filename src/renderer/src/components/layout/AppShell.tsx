@@ -1,4 +1,5 @@
 import { useEffect } from 'react';
+import { session } from '@/lib/client';
 import { useCurrentChannel, useCurrentGuild } from '@/hooks/useGuild';
 import { useGlobalHotkeys } from '@/hooks/useHotkeys';
 import { openFirstChannel, sortedTextChannels } from '@/store/actions';
@@ -6,8 +7,9 @@ import { useUi } from '@/store/ui';
 import { ChannelSidebar } from '../channels/ChannelSidebar';
 import { ChatView } from '../chat/ChatView';
 import { GuildRail } from '../guilds/GuildRail';
-import { HomeView } from '../guilds/HomeView';
 import { MemberList } from '../members/MemberList';
+import { FeedSidebar } from '../social/FeedSidebar';
+import { HomeArea } from '../social/HomeArea';
 import { ConnectionBanner } from './ConnectionBanner';
 import { Dialogs } from './Dialogs';
 import { UserPanel } from './UserPanel';
@@ -18,6 +20,12 @@ export function AppShell() {
   const channel = useCurrentChannel(guild);
   const showMembers = useUi((s) => s.showMemberList);
   const guildKey = useUi((s) => s.guildKey);
+
+  // The notification badge needs a count before the user ever opens Notifications.
+  useEffect(() => {
+    void session.social.loadNotifications().catch(() => {});
+    void session.social.loadLinks().catch(() => {});
+  }, []);
 
   // Land on a channel when a guild is opened without one, or the remembered one was deleted.
   useEffect(() => {
@@ -53,11 +61,7 @@ export function AppShell() {
 
       <div className="flex min-w-0 flex-1 overflow-hidden rounded-tl-[var(--radius-xl)] border-t border-l border-line bg-sunken shadow-[var(--highlight)]">
         <div className="flex w-68 shrink-0 flex-col">
-          {guild ? (
-            <ChannelSidebar guild={guild} activeChannelId={channel?.id ?? null} />
-          ) : (
-            <HomeSidebarPlaceholder />
-          )}
+          {guild ? <ChannelSidebar guild={guild} activeChannelId={channel?.id ?? null} /> : <FeedSidebar />}
           <UserPanel />
         </div>
 
@@ -71,7 +75,7 @@ export function AppShell() {
           ) : guild ? (
             <EmptyGuild />
           ) : (
-            <HomeView />
+            <HomeArea />
           )}
         </main>
 
@@ -80,18 +84,6 @@ export function AppShell() {
 
       <Dialogs />
     </div>
-  );
-}
-
-function HomeSidebarPlaceholder() {
-  return (
-    <nav aria-label="Home" data-region="channels" className="flex min-h-0 flex-1 flex-col">
-      <div className="flex h-12 shrink-0 items-center border-b border-line px-4 font-semibold">Home</div>
-      <div className="m-3 rounded-[var(--radius-lg)] border border-dashed border-line-strong p-4 text-center">
-        <p className="text-sm font-medium text-fg-muted">Direct messages are on the way</p>
-        <p className="mt-1 text-xs text-fg-subtle">For now, pick a server on the left.</p>
-      </div>
-    </nav>
   );
 }
 

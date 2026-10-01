@@ -11,6 +11,7 @@ import { ConfirmDialog } from '../ui/Dialog';
 import { Field, Input, SwitchRow, Textarea } from '../ui/Field';
 import { AboutTab } from './AboutTab';
 import { AvatarPicker } from './AvatarPicker';
+import { LinkedAccountsTab } from './LinkedAccountsTab';
 import { RadioCards, SettingsLayout, SettingsSection } from './SettingsLayout';
 
 export function UserSettings({
@@ -33,6 +34,7 @@ export function UserSettings({
         onOpenChange={onOpenChange}
         tabs={[
           { id: 'account', label: 'My account', content: <AccountTab /> },
+          { id: 'linked', label: 'Linked accounts', content: <LinkedAccountsTab /> },
           { id: 'appearance', label: 'Appearance', content: <AppearanceTab /> },
           { id: 'accessibility', label: 'Accessibility', content: <AccessibilityTab /> },
           { id: 'devices', label: 'Devices', content: <DevicesTab /> },
