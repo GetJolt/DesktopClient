@@ -312,6 +312,7 @@ function ThreadView({ postId }: { postId: string }) {
               <div className="border-y border-line px-5 py-3">
                 <ComposeBox replyTo={post} placeholder={`Reply to ${displayName(post.author)}`} />
               </div>
+              {error && <p className="px-5 py-6 text-center text-sm text-fg-muted">{error}</p>}
               {thread?.replies.map((id) => (posts[id] ? <PostItem key={id} post={posts[id]} /> : null))}
               {thread?.loading && (
                 <div className="flex justify-center py-6">
